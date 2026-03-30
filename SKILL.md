@@ -1,7 +1,7 @@
 ---
 name: youcom-search
 description: you.com web search, deep research, and content extraction for OpenClaw. Free tier for basic search; research and extract require paid API key.
-version: 0.1.2
+version: 0.1.3
 triggers:
   - "you.com"
   - "youcom"
@@ -105,13 +105,14 @@ python3 scripts/youcom_research.py "topic" [--depth lite|standard|deep|exhaustiv
 Extract clean text from specific URLs. Requires `YOUCOM_API_KEY`.
 
 ```bash
-python3 scripts/youcom_extract.py <url> [<url>...]
+python3 scripts/youcom_extract.py <url> [<url>...] [--formats markdown html metadata] [--timeout 10]
 ```
 
 | Option | Description |
 |--------|-------------|
 | `urls` | One or more URLs (space-separated) |
-| `--no-highlights` | Disable highlighted passages |
+| `--formats`, `-f` | Output formats: markdown, html, metadata (default: markdown metadata) |
+| `--timeout`, `-t` | Crawl timeout per URL in seconds 1–60 (default: 10) |
 
 **Max 20 URLs per call.** Batch larger lists into multiple calls.
 

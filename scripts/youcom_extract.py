@@ -11,14 +11,21 @@ import os
 import argparse
 
 
-def extract(urls: list, highlights: bool = True, api_key: str = None) -> dict:
+def extract(urls: list, formats: list = None, crawl_timeout: int = 10, api_key: str = None) -> dict:
     """Extract clean content from URLs via you.com ydc-index API."""
     if not api_key:
         api_key = os.environ.get("YOUCOM_API_KEY")
     if not api_key:
         raise ValueError("YOUCOM_API_KEY environment variable is not set")
 
-    payload = json.dumps({"urls": urls, "highlights": highlights}).encode("utf-8")
+    if formats is None:
+        formats = ["markdown", "metadata"]
+
+    payload = json.dumps({
+        "urls": urls,
+        "formats": formats,
+        "crawl_timeout": crawl_timeout
+    }).encode("utf-8")
     req = urllib.request.Request(
         "https://ydc-index.io/v1/contents",
         data=payload,
@@ -41,9 +48,19 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="you.com content extraction")
     parser.add_argument("urls", nargs="+", help="One or more URLs to extract")
     parser.add_argument(
-        "--no-highlights",
-        action="store_true",
-        help="Disable highlights in extracted content",
+        "--formats",
+        "-f",
+        nargs="+",
+        default=["markdown", "metadata"],
+        choices=["markdown", "html", "metadata"],
+        help="Output formats (default: markdown metadata)",
+    )
+    parser.add_argument(
+        "--timeout",
+        "-t",
+        type=int,
+        default=10,
+        help="Crawl timeout per URL in seconds (default: 10, max: 60)",
     )
     parser.add_argument(
         "--out", "-o", help="Write output to file instead of stdout"
@@ -51,7 +68,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     try:
-        result = extract(args.urls, highlights=not args.no_highlights)
+        result = extract(args.urls, formats=args.formats, crawl_timeout=args.timeout)
         output = json.dumps(result, indent=2, ensure_ascii=False)
         if args.out:
             with open(args.out, "w", encoding="utf-8") as f:

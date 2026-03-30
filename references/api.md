@@ -13,15 +13,16 @@ Headers: Accept: application/json
 ```
 POST https://api.you.com/v1/research
 Headers: Content-Type: application/json, X-API-Key: <key>
-Body: {"input": "...", "depth": "standard"}
-Depth options: lite, standard, deep, exhaustive
+Body: {"input": "...", "research_effort": "standard"}
+Effort options: lite, standard, deep, exhaustive
 ```
 
 ### Extract — Paid
 ```
 POST https://ydc-index.io/v1/contents
 Headers: Content-Type: application/json, X-API-Key: <key>
-Body: {"urls": ["https://..."], "highlights": true}
+Body: {"urls": ["https://..."], "formats": ["markdown", "metadata"], "crawl_timeout": 10}
+Formats: markdown, html, metadata (any combination)
 Max 20 URLs per request
 ```
 

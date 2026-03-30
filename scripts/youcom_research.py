@@ -18,7 +18,7 @@ def research(query: str, depth: str = "standard", api_key: str = None) -> dict:
     if not api_key:
         raise ValueError("YOUCOM_API_KEY environment variable is not set")
 
-    payload = json.dumps({"input": query, "depth": depth}).encode("utf-8")
+    payload = json.dumps({"input": query, "research_effort": depth}).encode("utf-8")
     req = urllib.request.Request(
         "https://api.you.com/v1/research",
         data=payload,
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         "-d",
         choices=["lite", "standard", "deep", "exhaustive"],
         default="standard",
-        help="Research depth (default: standard)",
+        help="Research effort level (default: standard)",
     )
     parser.add_argument(
         "--out", "-o", help="Write output to file instead of stdout"
