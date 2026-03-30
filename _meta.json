@@ -1,6 +1,6 @@
 {
-  "ownerId": "kn71xfc29hgzt1g5a40h0a6rhh83ewm9",
-  "slug": "youcom-search",
   "version": "0.1.3",
-  "publishedAt": 1774793927537
+  "author": "Crabsticksalad",
+  "tags": ["search", "web", "youcom", "research", "scraping", "bypass"],
+  "description": "you.com web search, deep research, and content extraction. Bypasses Cloudflare, GitHub, and Medium blocks. Free tier for basic search; research and extract require paid API key."
 }
